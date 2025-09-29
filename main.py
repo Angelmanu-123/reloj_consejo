@@ -1,26 +1,21 @@
 from tkinter import messagebox
 from tkinter import *
 import requests
+from datetime import date
 def actualizar():
     url ="https://timeapi.io/api/time/current/zone?timeZone=America%2FGuatemala"
 
     data = requests.get(url).json()
-    anio = data["year"]
     hora = data["hour"]
     minutos =data["minute"]
     segundos = data["seconds"]
 
 
-    texto = (f"hora: {hora}  " 
-             f" minutos: {minutos}  " 
-             f" segundos: {segundos}  " 
-             f"anio :{anio}")
+    texto = (f"hora: {hora} : {minutos} :{segundos} ")
     etiqueta.config(text=texto)
 
 
     app.after(1000, actualizar)
-
-
 
 def obtenerClima():
     url = "https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
@@ -47,16 +42,17 @@ def cerrar():
     app.destroy()
 
 app = Tk()
-
+fecha = date.today()
+fecho = Label(app,text=fecha,font=("Arial",12),fg="black")
+fecho.grid(column =0,row=0,padx=3,pady=3)
 app.title("aplicacion de la hora")
-app.geometry("300x200")
 app.resizable(width=False,height=False)
 
-etiqueta = Label(app,text = "hora",fg="blue")
+etiqueta = Label(app,text = "hora", font = ("Arial", 12),fg="blue")
 etiqueta.grid(column =0,row=1,padx=3,pady=3)
 
 app.title("Reloj ")
-app.resizable(False, False)
+app.resizable(True, True)
 # etiqueta para mostrar la hora
 etiqueta1 = Label(app, text="", )
 etiqueta1.grid(row=0, column=0, padx=5, pady=5, columnspan=1)
